@@ -20,12 +20,12 @@ OWNER_ID = list(map(int, getenv("OWNER_ID", "833360381").split()))
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
 USER_OWNER = getenv("USER_OWNER","IQ7amo")
-UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/zzzdevo/zz-bot-zz")
+UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/zzzdevo/devov")
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 GIT_TOKEN = getenv("GIT_TOKEN", None)
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/MGIMT")
 SUPPORT_GROUP = getenv("SUPPORT_GROUP", "https://t.me/IQSUPP")
-
+SUPPORT_IQ = getenv("SUPPORT_IQ", "@MGIMT")
 SUPPORT_HEHE = SUPPORT_GROUP.split("me/")[1]
 
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", "9999999"))
@@ -106,10 +106,7 @@ SPOTIFY_PLAYLIST_IMG_URL = "https://te.legra.ph/file/95b3ca7993bbfaf993dcb.jpg"
 
 def time_to_seconds(time):
     stringt = str(time)
-    return sum(
-        int(x) * 60**i
-        for i, x in enumerate(reversed(stringt.split(":")))
-    )
+    return sum(int(x) * 60**i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
 DURATION_LIMIT = int(time_to_seconds(f"{DURATION_LIMIT_MIN}:00"))
@@ -117,9 +114,14 @@ SONG_DOWNLOAD_DURATION_LIMIT = int(
     time_to_seconds(f"{SONG_DOWNLOAD_DURATION}:00")
 )
 
+if SUPPORT_CHANNEL:
+    if not re.match("(?:http|https)://", SUPPORT_CHANNEL):
+        raise SystemExit(
+            "[ERROR] - Your SUPPORT_CHANNEL url is wrong. Please ensure that it starts with https://"
+        )
 
-
-if MONGO_DB_URI != None:
-    MONGO_DB_URI = MONGO_DB_URI.strip()
-if MONGO_DB_URI == "":
-    MONGO_DB_URI = None
+if SUPPORT_GROUP:
+    if not re.match("(?:http|https)://", SUPPORT_GROUP):
+        raise SystemExit(
+            "[ERROR] - Your SUPPORT_CHAT url is wrong. Please ensure that it starts with https://"
+        )
